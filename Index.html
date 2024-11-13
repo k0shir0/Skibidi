@@ -3,42 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="refresh" content="3;url=MAINPAGE.html" />
-    <title>Getting Client's IP</title>
-    <style>
-        p, h1 {
-            color: green;
-        }
-    </style>
+    <title>IP Logger</title>
 </head>
-
 <body>
-    <center>
-        <h1>GeeksforGeeks</h1>
-        <h3>Public IP Address of user is:</h3>
-        <p id="ip-address"></p>
-    </center>
+    <h1>IP Logger</h1>
+    <p>Click the button to log your IP address.</p>
+    <button id="log-ip">Log My IP</button>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Fetch the IP address from the API
-            fetch("https://api.ipify.org?format=json")
-                .then(response => response.json())
-                .then(data => {
-                    // Display the IP address on the screen
-                    document.getElementById("ip-address").textContent = data.ip;
-                })
-                .catch(error => {
-                    console.error("Error fetching IP address:", error);
+        document.getElementById('log-ip').addEventListener('click', async () => {
+            try {
+                // Fetch the client's IP address using ipify API
+                const ipResponse = await fetch('https://api.ipify.org?format=json');
+                const ipData = await ipResponse.json();
+                const userIp = ipData.ip;
+
+                // Send the IP to the Vercel backend
+                const response = await fetch('https://your-vercel-project.vercel.app/api/send-ip', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ ip: userIp }),
                 });
-        });
-    </script>
 
-    <!-- Copy this into the end of <body> -->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> 
-    <script src="https://cdn.jsdelivr.net/gh/luisoos/IP-Log-To-Discord-Webhook/index.js"></script>
-    <script>
-        var webHookUrl = "https://discord.com/api/webhooks/1306285452394889226/N79NNR4O9o-_JAO133sHZ1ltgs-JAXgIGGMv6ucBlA-JhyTPzL4JkDSd7VZciPhHerdC";
+                const result = await response.json();
+                alert(result.message);
+            } catch (error) {
+                console.error('Error logging IP:', error);
+                alert('Error logging IP');
+            }
+        });
     </script>
 </body>
 </html>
